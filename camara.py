@@ -5,6 +5,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 max_pruebas = 7
+umbral = 114
 
 def probar_pixel(es_negro):
     for prueba in range(max_pruebas):
@@ -18,8 +19,15 @@ def probar_pixel(es_negro):
 
 ruta = sys.argv[1]
 nombre = os.path.splitext(os.path.basename(ruta))[0]
-imagen = Image.open(ruta).convert("L")
-ancho, alto = imagen.size
+original = Image.open(ruta).convert("RGB")
+ancho, alto = original.size
+grises = original.convert("L")
+
+imagen = Image.new("L", (ancho, alto), 255)
+for y in range(alto):
+    for x in range(ancho):
+        if grises.getpixel((x, y)) < umbral:
+            imagen.putpixel((x, y), 0)
 
 print("Ancho:", ancho)
 print("Alto:", alto)
@@ -50,14 +58,18 @@ print("Inconclusos:", inconclusos)
 os.makedirs("resultados", exist_ok=True)
 resultado_img.save("resultados/" + nombre + "_resultado.png")
 
-figura, ejes = plt.subplots(1, 2)
+figura, ejes = plt.subplots(1, 3)
 
-ejes[0].imshow(imagen, cmap="gray", vmin=0, vmax=255)
+ejes[0].imshow(original)
 ejes[0].set_title("Original")
 ejes[0].axis("off")
 
-ejes[1].imshow(resultado_img, cmap="gray", vmin=0, vmax=255)
-ejes[1].set_title("Resultado")
+ejes[1].imshow(imagen, cmap="gray", vmin=0, vmax=255)
+ejes[1].set_title("Blanco y negro")
 ejes[1].axis("off")
+
+ejes[2].imshow(resultado_img, cmap="gray", vmin=0, vmax=255)
+ejes[2].set_title("Resultado")
+ejes[2].axis("off")
 
 plt.show()
