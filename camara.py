@@ -26,6 +26,8 @@ explotadas = 0
 detectadas = 0
 inconclusos = 0
 
+resultado_img = Image.new("L", (ancho, alto), 255)
+
 for y in range(alto):
     for x in range(ancho):
         valor = imagen.getpixel((x, y))
@@ -35,9 +37,11 @@ for y in range(alto):
             explotadas += 1
         elif resultado == "detecta":
             detectadas += 1
+            resultado_img.putpixel((x, y), 0)
         else:
             inconclusos += 1
 
 print("Explotadas:", explotadas)
 print("Detectadas:", detectadas)
 print("Inconclusos:", inconclusos)
+resultado_img.save("resultados/resultado.png")
