@@ -1,6 +1,7 @@
 import sys
-from PIL import Image
+import os
 import random
+from PIL import Image
 import matplotlib.pyplot as plt
 
 max_pruebas = 7
@@ -16,6 +17,7 @@ def probar_pixel(es_negro):
     return "inconcluso"
 
 ruta = sys.argv[1]
+nombre = os.path.splitext(os.path.basename(ruta))[0]
 imagen = Image.open(ruta).convert("L")
 ancho, alto = imagen.size
 
@@ -45,7 +47,8 @@ for y in range(alto):
 print("Explotadas:", explotadas)
 print("Detectadas:", detectadas)
 print("Inconclusos:", inconclusos)
-resultado_img.save("resultados/resultado.png")
+os.makedirs("resultados", exist_ok=True)
+resultado_img.save("resultados/" + nombre + "_resultado.png")
 
 figura, ejes = plt.subplots(1, 2)
 
