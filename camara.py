@@ -1,5 +1,18 @@
 import sys
 from PIL import Image
+import random
+
+max_pruebas = 7
+
+def probar_pixel(es_negro):
+    for prueba in range(max_pruebas):
+        if es_negro:
+            sorteo = random.random()
+            if sorteo < 0.5:
+                return "explota"
+            elif sorteo < 0.75:
+                return "detecta"
+    return "inconcluso"
 
 ruta = sys.argv[1]
 imagen = Image.open(ruta).convert("L")
@@ -9,16 +22,22 @@ print("Ancho:", ancho)
 print("Alto:", alto)
 print("Total de pixeles:", ancho * alto)
 
-negros = 0
-blancos = 0
+explotadas = 0
+detectadas = 0
+inconclusos = 0
 
 for y in range(alto):
     for x in range(ancho):
         valor = imagen.getpixel((x, y))
-        if valor == 0:
-            negros += 1
+        es_negro = (valor == 0)
+        resultado = probar_pixel(es_negro)
+        if resultado == "explota":
+            explotadas += 1
+        elif resultado == "detecta":
+            detectadas += 1
         else:
-            blancos += 1
+            inconclusos += 1
 
-print("Negros:", negros)
-print("Blancos:", blancos)
+print("Explotadas:", explotadas)
+print("Detectadas:", detectadas)
+print("Inconclusos:", inconclusos)
