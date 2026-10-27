@@ -1,6 +1,7 @@
 import sys
 from PIL import Image
 import random
+import matplotlib.pyplot as plt
 
 max_pruebas = 7
 
@@ -45,3 +46,15 @@ print("Explotadas:", explotadas)
 print("Detectadas:", detectadas)
 print("Inconclusos:", inconclusos)
 resultado_img.save("resultados/resultado.png")
+
+figura, ejes = plt.subplots(1, 2)
+
+ejes[0].imshow(imagen, cmap="gray", vmin=0, vmax=255)
+ejes[0].set_title("Original")
+ejes[0].axis("off")
+
+ejes[1].imshow(resultado_img, cmap="gray", vmin=0, vmax=255)
+ejes[1].set_title("Resultado")
+ejes[1].axis("off")
+
+plt.show()
