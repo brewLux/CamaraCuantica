@@ -4,7 +4,7 @@ import random # permide simular numeros pseudoaleatorios para el interferometro
 from PIL import Image # Pillow: abre, crea, modifica y guarda imagenes
 import matplotlib.pyplot as plt # dibuja la ventana con las imagenes
 
-max_pruebas = 7 # numero maximo de pruebas por foton (constante ajustable)
+max_pruebas = 7 # numero maximo de pruebas por pixel (constante ajustable)
 umbral = 128 # umbral de una imagen (constante ajustable)
 
 # simula el sistema sobre un pixel
@@ -63,7 +63,7 @@ for y in range(alto):
         else:
             inconclusos += 1
 
-# explicar que, como y porque se esta imprimiento en pantalla
+# muestra un resumen de los resultados obtenidos
 print("Explotadas:", explotadas)
 print("Detectadas:", detectadas)
 print("Inconclusos:", inconclusos)
